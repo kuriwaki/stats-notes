@@ -1,9 +1,9 @@
 ---
 title: 'Regression Notes'
-date: Fall 2017 (Last updated \today)
+date: Last updated \today
 author:
 - name: Shiro Kuriwaki
-  affiliation:  API 201-Z Teaching Fellow
+  affiliation: Harvard University
   email: kuriwaki@g.harvard.edu
 output:
   pdf_document:
@@ -23,7 +23,8 @@ library(stargazer)
 ```
 
 
-\noindent \large{$^\star$} \footnotesize{These optional notes are only intended to be supplements to review session and Professor Saghafian's lectures. They emphasize the important ideas and tries to connect them with verbal explanation and worked examples. However, they are not meant to be comprehensive, and they may contain my own errors, which I will fix as I find them. I rely on multiple sources for explanation and examples\footnote{DeGroot and Schervish (2012), Imai (2017), Diez, Barr, and Cetinkaya-Rundel (2015), Moore, McCabe, and Craig (2002), and notes by Matt Blackwell (2016)}. I'd appreciate any feedback on what types of such material would be helpful for you to learn the class material.}
+\footnotesize{\noindent (These notes are designed to accompany a social science statistics class. They emphasize important ideas and tries to connect them with verbal explanation and worked examples. However, they are not meant to be comprehensive, and they may contain my own errors, which I will fix as I find them. I rely on multiple sources for explanation and examples\footnote{DeGroot and Schervish (2012), Imai (2017), Diez, Barr, and Cetinkaya-Rundel (2015), Moore, McCabe, and Craig (2002), and notes by Matt Blackwell (2016)}.}
+
 \normalsize
 
 
@@ -376,7 +377,7 @@ We use Center for Medicare and Medicaid Services (CMS) data on how much a hospit
 \end{example}
 
 ```{r}
-cms <- read_dta("../Datasets/medicare/clinic_payment.dta")
+cms <- read_dta("data/clinic_payment.dta")
 ```
 
 

@@ -113,6 +113,7 @@ $if(graphics)$
 \def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
 \def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
 \makeatother
+
 % Scale images if necessary, so that they will not overflow the page
 % margins by default, and it is still possible to overwrite the defaults
 % using explicit options in \includegraphics[width, height, ...]{}
@@ -125,17 +126,15 @@ $endfor$
 \usepackage{amsmath,amssymb}
 
 $if(title)$
-\title{\bigskip $title$}
+\title{$title$}
 $endif$ 
 
-%\author{$for(author)$$author$$sep$\\$endfor$}
 
-\author{$for(author)$\Large $author.name$\vspace{0.05in} \newline\normalsize\emph{$author.affiliation$} \newline\footnotesize $author.email$\vspace*{0.2in}\newline $sep$ \and $endfor$}
+\author{$for(author)$\normalsize $author.name$\vspace{0.05in} \newline\normalsize{$author.affiliation$} \newline\normalsize $author.email$\vspace*{0.2in}\newline $sep$ \and $endfor$}
 
-%\author{$for(author)$$author.name$ ($author.affiliation$)$sep$ \and $endfor$}
 
 $if(date)$
-\date{$date$}
+\normalsize\date{$date$}
 $endif$
 
 \begin{document}  
@@ -146,7 +145,6 @@ $endif$
 \chapterstyle{article-4} 
 \pagestyle{kjh}
 
-%\published{$date$. Incomplete Draft. Please do not cite without permission.}
 
 $if(title)$
 \maketitle

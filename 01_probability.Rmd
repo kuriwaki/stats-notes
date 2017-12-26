@@ -1,9 +1,9 @@
 ---
 title: 'Probability Notes'
-date: Fall 2017 (Last updated \today)
+date: Last updated \today
 author:
 - name: Shiro Kuriwaki
-  affiliation:  API 201-Z Teaching Fellow
+  affiliation: Harvard University
   email: kuriwaki@g.harvard.edu
 output:
   pdf_document:
@@ -13,7 +13,8 @@ output:
 ---
 
 
-\noindent (These optional notes are only intended to be supplements to review session and Professor Saghafian's lectures. They emphasize important ideas and tries to connect them with verbal explanation and worked examples. However, they are not meant to be comprehensive, and they may contain my own errors, which I will fix as I find them. I rely on multiple sources for explanation and examples\footnote{DeGroot and Schervish (2012), Blitzstein and Huang (2014), Blitzstein and Morris (unpublished manuscript), Imai (2017), and Ross (2003)}. I'd appreciate any feedback on what types of such material would be helpful for you to learn the class material.)
+\footnotesize{\noindent (These notes are designed to accompany a social science statistics class. They emphasize important ideas and tries to connect them with verbal explanation and worked examples. However, they are not meant to be comprehensive, and they may contain my own errors, which I will fix as I find them. I rely on multiple sources for explanation and examples\footnote{DeGroot and Schervish (2012), Blitzstein and Huang (2014), Blitzstein and Morris (unpublished manuscript), Imai (2017), and Ross (2003)}.)}
+\normalsize
 
 # Where are we? Where are we going?
 The first three weeks of the course cover probability, a fundamental concept in quantitative reasoning. Probability is especially important for policy makers and social scientists, who must make inferences and predictions about the social world. Probability has an intuitive sense to it, which is useful, but to think about random variables and distributions requires some formal definitions.
