@@ -1,0 +1,197 @@
+\documentclass[11pt,article,oneside]{memoir}
+\usepackage{org-preamble-xelatex}
+\usepackage{tikz}
+\usetikzlibrary{arrows,positioning}
+\usepackage[reqno]{amsmath}
+\usepackage{amssymb,enumerate}
+\usepackage{lmodern}
+
+% Theorems
+\usepackage{amsthm}
+\usepackage{etoolbox}
+\renewcommand{\qedsymbol}{\rule{0.7em}{0.7em}}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lem}{Lemma}
+\newtheorem{assump}{Assumption}
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}
+\AtEndEnvironment{definition}{\null\hfill\qedsymbol}%
+\newtheorem{example}{Example}
+\newtheorem{error}{Common Error}
+\AtEndEnvironment{error}{\null\hfill\qedsymbol}%
+
+\AtEndEnvironment{theorem}{\null\hfill\qedsymbol}%
+\theoremstyle{remark}
+\usepackage{float}
+
+% slick boxes
+\usepackage{tcolorbox} 
+\tcbset{nobeforeafter,size=small}
+\tcbset{tcbox raise base}
+
+
+% align footnote
+\usepackage[hang, bottom]{footmisc} 
+    \setlength\footnotemargin{8pt}
+    \setlength{\footnotesep}{8pt}
+\renewcommand{\footnoterule}{%
+  \kern -3pt
+  \hrule width \textwidth height 1pt
+  \kern 2pt
+}
+
+% TOC
+\setcounter{tocdepth}{2}
+% Hide header
+\makeatletter
+\renewcommand\tableofcontents{%
+    \@starttoc{toc}%
+}
+\makeatother
+
+% Blitzstein
+\newcommand{\var}{\textnormal{Var}}
+\newcommand{\cov}{\textnormal{Cov}} 
+\newcommand{\cor}{\textnormal{Cor}} 
+\newcommand{\N}{\mathcal{N}}
+\newcommand{\Bern}{\textnormal{Bern}}
+\newcommand{\Bin}{\textnormal{Bin}}
+\newcommand{\Pois}{\textnormal{Pois}}
+\newcommand{\Unif}{\textnormal{Unif}}
+
+\newcommand{\au}{\underline{a}}
+\newcommand{\Au}{\underline{A}}
+\newcommand{\xu}{\underline{x}}
+\newcommand{\Xu}{\underline{X}}
+\newcommand{\Yu}{\underline{Y}}
+\newcommand{\Xbar}{\overline{X}}
+\newcommand{\Ybar}{\overline{Y}}
+
+\newcommand{\real}{\mathbb{R}}
+\newcommand{\mb}{\mathbf}
+\renewcommand{\bs}{\boldsymbol}
+\renewcommand{\u}{\ensuremath{\mb{u}}}
+\renewcommand{\v}{\ensuremath{\mb{v}}}
+%\renewcommand{\U}{\ensuremath{\mb{U}}}
+%\renewcommand{\M}{\ensuremath{\mb{M}}}
+%\newcommand{\X}{\ensuremath{\mb{X}}}
+\newcommand{\x}{\ensuremath{\mb{x}}}
+\newcommand{\y}{\ensuremath{\mb{y}}}
+\renewcommand{\b}{\ensuremath{\bs{\beta}}}
+\newcommand{\e}{\ensuremath{\bs{\epsilon}}}
+\newcommand{\bhat}{\ensuremath{\widehat{\bs{\beta}}}}
+\newcommand{\XX}{\ensuremath{\X'\X}}
+\newcommand{\XXinv}{\ensuremath{\left(\XX\right)^{-1}}}
+\newcommand{\hatsig}{\ensuremath{\hat{\sigma}^2}}
+\newcommand{\red}[1]{\textcolor{red!60}{#1}}
+\newcommand{\blue}[1]{\textcolor{blue!60}{#1}}
+\newcommand{\indep}{\perp\!\!\!\perp}
+\newcommand{\inprob}{\stackrel{p}{\rightarrow}}
+\newcommand{\indist}{\stackrel{d}{\rightarrow}}
+\definecolor{dodgerblue}{RGB}{52,152,219}
+\definecolor{offwhite}{RGB}{236, 240, 241}
+$if(listings)$
+\usepackage{listings}
+$endif$
+$if(lhs)$
+\lstnewenvironment{code}{\lstset{language=r,basicstyle=\small\ttfamily}}{}
+$endif$
+$if(highlighting-macros)$
+$highlighting-macros$
+$endif$
+$if(verbatim-in-note)$
+\usepackage{fancyvrb}
+$endif$
+$if(tables)$
+\usepackage{longtable}
+$endif$
+
+
+$if(graphics)$
+\usepackage{graphicx,grffile}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+$endif$
+$for(header-includes)$
+$header-includes$
+$endfor$
+
+\usepackage{amsmath,amssymb}
+
+$if(title)$
+\title{\bigskip $title$}
+$endif$ 
+
+%\author{$for(author)$$author$$sep$\\$endfor$}
+
+\author{$for(author)$\Large $author.name$\vspace{0.05in} \newline\normalsize\emph{$author.affiliation$} \newline\footnotesize $author.email$\vspace*{0.2in}\newline $sep$ \and $endfor$}
+
+%\author{$for(author)$$author.name$ ($author.affiliation$)$sep$ \and $endfor$}
+
+$if(date)$
+\date{$date$}
+$endif$
+
+\begin{document}  
+\setkeys{Gin}{width=1\textwidth} 	
+\setromanfont[Mapping=tex-text,Numbers=OldStyle]{Minion Pro} 
+% \setsansfont[Mapping=tex-text]{Latin Modern Sans} 
+\setmonofont[Mapping=tex-text,Scale=0.8]{Monaco}
+\chapterstyle{article-4} 
+\pagestyle{kjh}
+
+%\published{$date$. Incomplete Draft. Please do not cite without permission.}
+
+$if(title)$
+\maketitle
+$endif$
+
+$if(toc)$
+{
+\hypersetup{linkcolor=black}
+\setcounter{tocdepth}{$toc-depth$}
+\tableofcontents
+}
+$endif$
+
+$if(abstract)$
+
+\begin{abstract}
+
+\noindent $abstract$
+
+\end{abstract}
+
+$endif$
+
+$body$
+
+
+$if(natbib)$
+$if(biblio-files)$
+$if(biblio-title)$
+$if(book-class)$
+\renewcommand\bibname{Bibliography}
+$else$
+\renewcommand\refname{References}
+$endif$
+$endif$
+\bibliography{$biblio-files$}
+
+$endif$
+$endif$
+$if(biblatex)$
+\printbibliography$if(biblio-title)$[title=References]$endif$
+
+$endif$
+$for(include-after)$
+$include-after$
+
+$endfor$
+\end{document}
