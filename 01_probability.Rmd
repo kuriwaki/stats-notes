@@ -13,15 +13,22 @@ output:
 ---
 
 
-\footnotesize{\noindent (These notes are designed to accompany a social science statistics class. They emphasize important ideas and tries to connect them with verbal explanation and worked examples. However, they are not meant to be comprehensive, and they may contain my own errors, which I will fix as I find them. I rely on multiple sources for explanation and examples\footnote{DeGroot and Schervish (2012), Blitzstein and Huang (2014), Blitzstein and Morris (unpublished manuscript), Imai (2017), and Ross (2003)}.)}
+\footnotesize{\noindent (These notes are designed to accompany a social science statistics class. They emphasize important ideas and tries to connect them with verbal explanation and worked examples. However, they are not meant to be comprehensive, and they may contain my own errors, which I will fix as I find them. I rely on multiple sources for explanation and examples\footnote{DeGroot and Schervish (2012), Blitzstein and Huang (2014), Blitzstein and Morris (unpublished book), and Imai (2017)}. Thanks to the students of API-201Z (2017) for their feedback and Matt Blackwell for inspiration.)}
+
 \normalsize
 
 # Where are we? Where are we going?
-The first three weeks of the course cover probability, a fundamental concept in quantitative reasoning. Probability is especially important for policy makers and social scientists, who must make inferences and predictions about the social world. Probability has an intuitive sense to it, which is useful, but to think about random variables and distributions requires some formal definitions.
+The first part of a applied statistics class often starts with probability, a fundamental concept in quantitative reasoning\footnote{But see Imai (2017) for a flipped order.}. Probability is especially important for policy makers and social scientists, who must make inferences and predictions about the social world. Probability has an every day intuition associated with it, but to think about random variables and distributions requires some formal definitions.
 
-Probability and inference are mirror images of each other. After probability the class will move on to inference. After that, we move on to models  (namely linearly regression) for making inferences -- the credibility of these models rests on statements about the distribution of the estimators used. Throughout, probability is fundamental.
+Probability and inference are mirror images of each other. After probability the class moves on to inference. After that, we move on to models  (namely linearly regression) for making inferences -- the credibility of these models rests on statements about the distribution of the estimators used. Throughout, probability is fundamental.
 
-# Check your understanding
+
+## Contents
+
+\tableofcontents
+
+
+## Check your understanding
 
 * What is probability?
 * What is conditional probability?
@@ -32,16 +39,17 @@ Probability and inference are mirror images of each other. After probability the
 * How do random variables and distributions relate to each other?
 * How do we calculate the expectation and variance of a random variable in practice?
 
-# The counting definition of probability
+
+# The Counting Definition of Probability
 Probability pervades our lives. We use words like "likely", "I'm not sure", "maybe", "definitely" that convey probability. This leads to a intuitive definition of probability,
 
 \begin{align*}
 P(\text{event}) = \frac{\text{Number of events}}{\text{Number of possibilities}}
 \end{align*}
 
-I will refer to this as the counting definition of probability. It is not technically correct but it is simple: We count up the number of events that we care about, we count up the number of all possible outcomes, and then we divide the former by the latter. This is how we often think when asked problems like "What is the probability that I roll a 2 from a die?".
+I will refer to this as the "counting definition" of probability. It is not technically correct but it is simple: We count up the number of events that we care about, we count up the number of all possible outcomes, and then we divide the former by the latter. This is how we often think when asked problems like "What is the probability that I roll a 2 from a die?".
 
-This is a straightforward way of thinking about uncertainty and probability. Straightforward doesn't mean it's easy: counting sequences of complex events can get taxing quickly. For example, we count when we sample "with replacement" or "without replacement", and that requires different measures of counting. Problems involving complex counting schemes are a type of combinatorics problem\footnote{Here's a hard one: ``Suppose a class has 20 students, and there are exactly 20 seats in the classroom. Everyone attends both of the first two days. On both days, the students choose their seats completely randomly, one student per seat.  What is the probability that no one sits in the same seat on both days?'' (Blitzstein and Huang, 1.50)}.
+This is a straightforward way of thinking about uncertainty and probability. Straightforward doesn't mean easy: counting sequences of complex events can get taxing quickly. For example, we count when we sample "with replacement" or "without replacement", and that requires different measures of counting. Problems involving complex counting schemes are a type of combinatorics problem\footnote{Here's a hard one: ``Suppose a class has 20 students, and there are exactly 20 seats in the classroom. Everyone attends both of the first two days. On both days, the students choose their seats completely randomly, one student per seat.  What is the probability that no one sits in the same seat on both days?'' (Blitzstein and Huang, 1.50)}.
 
 On the other hand, the counting definition of probability can only get us so far. Consider the following question: What is the probability that aliens exist? A naive version of the counting definition would give the answer $\frac{1}{2}$:
 
@@ -55,14 +63,14 @@ This makes the setup even more suspect, because we'd think that the probability 
 The toy example^[Drawn from Blitzstein, Stat 110] aims to show mainly two shortcomings of the counting version of probability. First, counting often treats each outcome equally likely even when in reality they are not. Second, counting can only count finite sample spaces^[It might seem unnecessary to think about infinite sample spaces for practical purposes. However, many things we care about indeed have infinite sample spaces. Any continuous variable, such as age, can take on infinite values if we treat it as a real number: 50, 50.1, 50.11, 50.111, 50.1111, ... ].
 
 
-# A more formal definition of probability
+# A More Rigorous Definition of Probability
+
+
 \begin{definition}[Probability]
 Probability is a function that maps events to a real number, obeying the axioms of probability.
 \end{definition}
 
-Why is this useful?
-
-One thing probability does is that it is a transparent way to quantify events. As analysts of the social world, we usually care about events -- e.g., the event that a citizen has a certain opinion, or the event that another has a disease. However, the real world is messy; numbers are simpler. Numbers are also more transparent and universal: two analysts on the other side of the world may not understand an event in the same way (being people), but numbers have universal meaning.
+I will get to the "axioms" shortly, but first, why is this definition useful? One role of probability is to serve as a transparent way to quantify events. As analysts of the social world, we usually care about events -- e.g., the event that a citizen has a certain opinion, or the event that another has a disease. However, the real world is messy; numbers are simpler. Numbers are also more transparent and universal: two analysts on the other side of the world may not understand an event in the same way (being people), but numbers have universal meaning.
 
 ![Probability Measures Events](figures/probability.pdf)
 
@@ -167,13 +175,13 @@ P(A \cap B) = P(A)P(B)
 
 In English, when you're told for example two events (e.g. two scandals) developed independently, the first image that might come to mind is that the two events are separate. However, this impression can be misleading!
 
-\begin{error}[Indepence and Disjointness]
+\begin{error}[Independence and Disjointness]
 Independence and Disjointness are two different concepts. The former does not imply the latter and the latter does not imply the former.
 
 In the simplest example, consider a single coin flip. There are two events, Heads or Tails. These are disjoint (both cannot happen at the same time) but they are clearly \emph{dependent}.If you know a flip is Heads, it is definitely not Tails!
 \end{error}
 
-The clearest and safest way to understand independence might be through again relying on conditioninal probability. Two events are independent if knowing information about one event does not \emph{add} or \emph{detract} information about another.
+The clearest and safest way to understand independence might be through again relying on conditional probability. Two events are independent if knowing information about one event does not \emph{add} or \emph{detract} information about another.
 
 To establish something is independent, you may need to rearrange the terms to recover the definitional form of independence. When dealing with abstract events, you'd need to rely on the basic rules to get to an expression you want. A lot of solving problems like this is pattern recognition.
 
@@ -206,7 +214,7 @@ Bayes Rule is one of the most well-known of such formulations.
 For a partition of $A$: $A_1, A_2, \cdots A_k$
 \end{definition}
 
-But the intermediary formualtions we derive from Bayes Rule from the definition of conditional probability are equally important
+But the intermediary formulations we derive from Bayes Rule from the definition of conditional probability are equally important
 
 \begin{align*}
 P(A \mid B) &= \frac{P(A \cap B)}{P(B)}\\
@@ -219,7 +227,7 @@ P(A \mid B) &= \frac{P(A \cap B)}{P(B)}\\
 We end up relying on these relationships when we are asked for a conditional probability we do not observe directly.
 
 \begin{example}[The Lie Detector]
-A Lie Detector gives one of two  results: ``Honest'' or ``Liar'' and is 80 percent accurate. That is, it detects Honest people correctly 80 percent of the time, and it dtects Liars correctly 80 percent of the time. Suppose 10 percent of the entire population are liars. Suppose we tested the lie detector on a representative sample of the population of 100 people. We then inspect closely the subset of people for whom the Lie Detector reported "Liar". Among this subset, what is the probability that any given member is truly a liar?
+A Lie Detector gives one of two  results: ``Honest'' or ``Liar'' and is 80 percent accurate. That is, it detects Honest people correctly 80 percent of the time, and it detects Liars correctly 80 percent of the time. Suppose 10 percent of the entire population are liars. Suppose we tested the lie detector on a representative sample of the population of 100 people. We then inspect closely the subset of people for whom the Lie Detector reported "Liar". Among this subset, what is the probability that any given member is truly a liar?
 
 \tcbox{Answer} We are asked for a conditional probability -- the event that a person is a liar given that the lie detector reported ``Liar''. We set this up and try to express it in terms that we have numbers for:
 
@@ -230,7 +238,7 @@ A Lie Detector gives one of two  results: ``Honest'' or ``Liar'' and is 80 perce
 &= \frac{0.80 \times 0.10}{0.80 \times 0.10 + 0.20 \times 0.90}\\
 &\approx 0.30
 \end{align*}
-We could decompose the denominator in the above way because we know the events ``Liar'' and ``Honest'' are disjoint and parition the sample. Otherwise, we would not have been able to rewrite this probability in this way.
+We could decompose the denominator in the above way because we know the events ``Liar'' and ``Honest'' are disjoint and partition the sample. Otherwise, we would not have been able to rewrite this probability in this way.
 
 Naively, we might think that at least 80 percent of those who were reported as liars should be liars -- after all the test is 80 percent accurate regardless of the truth. But once we "condition on" a result, we see that we get a completely different picture.
 \end{example}
@@ -238,9 +246,9 @@ Naively, we might think that at least 80 percent of those who were reported as l
 Let's take another, more conceptual example.
 
 \begin{example}[Prosecutor's Fallacy]
-In a 1999 court case, Sally Clark was convicted of infanticide when two of sons died early at birth. On trial the prosecutor argued that Clark was most definitely likely of infanticide. The argument went as follows. First he cited a statistic that in the population, only 1 out of 8,500 young births result in death from natural causes. The probability that two successive deaths occur naturally, then, is (1/ 8500)*(1/8500), one in over 72 million. This is extremely unlikely. Thus, given the evidence of two successive deaths, the probability that they were natural causes is one in over 72 million. In other words, there is overwhelming evidence that Clark had committed infanticide.
+In a 1999 court case, Sally Clark was convicted of infanticide when two of sons died early at birth. On trial the prosecutor argued that Clark was most definitely likely of infanticide. The argument went as follows. First he cited a statistic that in the population, only 1 out of 8,500 young births result in death from natural causes. The probability that two successive deaths occur naturally, then, is (1/ 8500) times (1/8500): one in over 72 million. This is extremely unlikely. Thus, given the evidence of two successive deaths, the probability that they were natural causes is one in over 72 million. In other words, there is overwhelming evidence that Clark had committed infanticide.
 
-Suppose that the 1 out of 8,500 number is true\footnote{What this statement being true means can be technically tricky. How were the numbers obtained and what population does it speak to? Remember that the probability is always defined with respect to a sample space $S$. What you define $S$ to be \emph{depends on the analyst} who is coneptualizing these probabilities; they differ case by case. Here it would be reasonable to think that the sample space is the life or death for every mother's children, among mothers who have children. If we think this rate is constant across history, then the time window should not matter.} and applies to Clark. What are the problem(s) in this reasoning?
+Suppose that the 1 out of 8,500 number is true\footnote{What this statement being true means can be technically tricky. How were the numbers obtained and what population does it speak to? Remember that the probability is always defined with respect to a sample space $S$. What you define $S$ to be \emph{depends on the analyst} who is conceptualizing these probabilities; they differ case by case. Here it would be reasonable to think that the sample space is the life or death for every mother's children, among mothers who have children. If we think this rate is constant across history, then the time window should not matter.} and applies to Clark. What are the problem(s) in this reasoning?
 
 \tcbox{Answer 1} The first problem is the multiplication of two probabilities, because they do not deal with dependence. Let $E_1$ be the event (evidence) that Clark's first child dies of natural causes. Accept as true that $P(E_1) = 1/8500$. Let $E_2$ be the event that Clark's second child dies of natural causes. Then, from the statistic, we get $P(E_2) = 1/8500$ as well. However, the prosecutor is making claims about \textbf{both} children dying of natural causes. Let's call that event $E_{1,2}.$
 
@@ -338,7 +346,7 @@ The Cumulative distribution function (cdf), often denoted $F$, is a function tha
 \end{definition}
 By the additivity axiom of probability, for a discrete $X$ we know that we can rewrite this as a sum of probabilities of each possible outcome of $X$ that is less than $x$:
 \[P(X \leq x) = \sum_{a \leq x}P(X = a)\]
-where the summation symbol with subscript means to apply the sum for any a such that $a \leq x$. The letter $a$ seems to have come from nowhere; this is sometimes called a ``book-keeping'' variable meant only to track which elemnt of the possible values of $X$ we are on. It is introduced to provide the math for the English, and has no important interpretation of its own.
+where the summation symbol with subscript means to apply the sum for any a such that $a \leq x$. The letter $a$ seems to have come from nowhere; this is sometimes called a ``book-keeping'' variable meant only to track which element of the possible values of $X$ we are on. It is introduced to provide the math for the English, and has no important interpretation of its own.
 
 The cumulative distribution function is useful when our probability of interest is cumulative. For example, we might be interested in the probability that a mother has 2 children or less. If $X$ is the number of children a mother has and its cdf is called $F$, then our probability of interest can be expressed as a cdf $F(x = 3)$.
 
@@ -383,7 +391,7 @@ C & 1.7 & 0.02\\
 \[E(X) = \sum_{x} P(X = x)\times x = 0.7\times 0.02 + 1\times 0.02 + \cdots 0.5\times 5 = 3.633\]
 For known distributions their is a simpler formula for $E(X)$. But for any discrete r.v., we could calculate $E(X)$ in this manner.
 
-Final note: This example is a case in which the probabilities associated with an event is only expressable in a table. There is no one-line formula, at least at first glance, to get from the values of $X(s)$ to $P(X = x)$. The distributions that we will see in the next section have specific formulas.
+Final note: This example is a case in which the probabilities associated with an event is only expressible in a table. There is no one-line formula, at least at first glance, to get from the values of $X(s)$ to $P(X = x)$. The distributions that we will see in the next section have specific formulas.
 
 \end{example}
 
@@ -400,7 +408,7 @@ The probability density function (pdf), often denoted $f$, satisfies the propert
 \[P(a < X < b) = F(b) - F(a) = \int^b_a f(x) dx\]
 where $F$ is the CDF of $X$. Another definition of $f$ is as the derivative of $F$,
 \[f(x) = F^\prime(x)\]
-where the prime symbol denotes derivation with respect to $X$.  The two equations will be equivalent due to the fundamental theorems of calculus.
+where the dash or "prime" symbol denotes derivation with respect to $X$.  The two equations will be equivalent due to the fundamental theorems of calculus.
 \end{definition}
 
 \begin{error}[PDF]
@@ -471,13 +479,13 @@ In a class of $30$ students, each student has $0.1$ probability of arriving late
 \medskip
 \noindent 3. What is $E(X)$?
 
-\tcbox{Answer} You \emph{could} compute $\sum_{x = 0, 1, ..., 30}{30 \choose x}(0.1)^{x}(0.9)^{30 - x}$. But the expecation of known r.v.'s such as the Binomial is derived for you, and in this case has an intuitive feel to it. $E(X) = np = 3$.
+\tcbox{Answer} You \emph{could} compute $\sum_{x = 0, 1, ..., 30}{30 \choose x}(0.1)^{x}(0.9)^{30 - x}$. But the expectation of known r.v.'s such as the Binomial is derived for you, and in this case has an intuitive feel to it. $E(X) = np = 3$.
 
 \medskip
 
 \noindent 4. What is the probability that more than $27$ people arrive \emph{on time}?
 
-\tcbox{Answer} That's the probability that either 0, 1, or 2 people arrive late. The probability of this union is the sum of probabilities, becaus events are disjoint. So
+\tcbox{Answer} That's the probability that either 0, 1, or 2 people arrive late. The probability of this union is the sum of probabilities, because events are disjoint. So
 \[P(\text{27 or more people are on time}) = \sum_{x = 0}^2{30 \choose x}(0.1)^{x}(0.9)^{30 - x} = 0.41\]
 
 \end{example}
@@ -529,7 +537,7 @@ $x$ & $P(X = x)$ & $P(X \leq x)$ \\[5pt]
 \end{tabular}
 \end{table}
 
-The interesting point about a Poisson is that $x$ is countably infinite. That is we can compute quanties like $P(X = 99999999)$ and keep on going. In a Binomial, we had to stop at $n$. If $X$ can take on infinitely many values and this probability table will go on for ever, you might doubt whether the PMF will sum to 1. After all, we are summing an infinite amount of things. However, it does not. The sum of this sequence actually converges to 1.
+The interesting point about a Poisson is that $x$ is countably infinite. That is we can compute quantities like $P(X = 99999999)$ and keep on going. In a Binomial, we had to stop at $n$. If $X$ can take on infinitely many values and this probability table will go on for ever, you might doubt whether the PMF will sum to 1. After all, we are summing an infinite amount of things. However, it does not. The sum of this sequence actually converges to 1.
 \end{example} \qed
 
 ## Uniform Distribution
@@ -549,7 +557,7 @@ Perhaps an easier way to remember this is that the PDF of a Uniform variable is 
 \begin{example}
 A r.v. $V \sim \text{Uniform}(-2, 8)$. What is $P(0 < V < 7)$?\\
 
-\tcbox{Answer} 7/10, because we take the slice of the rectangle, so to speak, where the values are $0 <  v < 7$. The entire width of the rectangle is from $-2$ to $8$, so $10$. The probability is 7 over 10, then. The fact that the probability range is not inclusive of the endpoints 0 and 7 should not affect your answer, becaus continuous r.v.'s have Probability 1 for any particular value (i.e., $P(V = 0) = 0, P(V = 7) = 0$, so $P(0 < V < 7) = P(0 \leq V \leq 7) = 0$).
+\tcbox{Answer} 7/10, because we take the slice of the rectangle, so to speak, where the values are $0 <  v < 7$. The entire width of the rectangle is from $-2$ to $8$, so $10$. The probability is 7 over 10, then. The fact that the probability range is not inclusive of the endpoints 0 and 7 should not affect your answer, because continuous r.v.'s have Probability 1 for any particular value (i.e., $P(V = 0) = 0, P(V = 7) = 0$, so $P(0 < V < 7) = P(0 \leq V \leq 7) = 0$).
 \end{example}
 \qed
 
@@ -571,9 +579,9 @@ A special type of Normal distribution is one with mean 0 and variance 1. We ofte
 As the naming of the parameter suggests, we can show that $E(X) = \mu$ and $\var(X) = \sigma^2$. For now, you can take these as given.
 
 
-Even though its PDF looks daunting, Normal distributions come up everywhere. In inference, we will start with the Central Limit Theorem, which posits that the sum of most random variables will be distrbuted as a Normal distribution as the number of elements increase. This means that many phenomena we observe in real life have approximately a Normal distribution. 
+Even though its PDF looks daunting, Normal distributions come up everywhere. In inference, we will start with the Central Limit Theorem, which posits that the sum of most random variables will be distributed as a Normal distribution as the number of elements increase. This means that many phenomena we observe in real life have approximately a Normal distribution. 
 
-The densties of a Normal PDF vary by their parameters, i.e. $\mu$ and $\sigma^2$. However, a useful fact is that any Normal r.v. has a straightforward transformation to our favorite type of Normal, a standard Normal. To get this, subtract $\mu$ from $X$ and then divide that difference by $\sigma$.
+The densities of a Normal PDF vary by their parameters, i.e. $\mu$ and $\sigma^2$. However, a useful fact is that any Normal r.v. has a straightforward transformation to our favorite type of Normal, a standard Normal. To get this, subtract $\mu$ from $X$ and then divide that difference by $\sigma$.
 
 \[\text{For any }X \sim \text{Normal}(\mu, \sigma^2),  \frac{X - \mu}{\sigma} \sim Z\]
 
@@ -660,7 +668,7 @@ we may refer to this procedure as taking the constant ``out" of the expectation.
 
 
 
-\begin{error}[Cateogry Error for $E$]
+\begin{error}[Category Error for $E$]
 Note that the expectation is a number, not a random variable (remember: a r.v. is a function, which in turn gives a number). There is variability on what a random variable $X$ can take on, but there is no variability of $E(X)$ because we have summed over all the possibilities and generated just one number.
 \end{error}
 
@@ -692,7 +700,7 @@ Starting from the definition of variance,
 \qed
 
 
-\begin{error}[Cateogry Error for $\var$]
+\begin{error}[Category Error for $\var$]
 Similar to expectation, the variance of a random variable is a number, not a random variable.
 \end{error}
 
@@ -815,7 +823,7 @@ A Markov chain is an attempt to capture that complexity, but with enough simplic
 
 
 \begin{definition}[Markov Property and Markov Chains]
-A sequence of random variables, $X_1, ... X_n$ is said to have the Markov property if for each of random varaibles, the ``future'' state (the subsequent $X_i$) depends only on the present state, i.e. is independent of past states conditional on the past states:
+A sequence of random variables, $X_1, ... X_n$ is said to have the Markov property if for each of random variables, the ``future'' state (the subsequent $X_i$) depends only on the present state, i.e. is independent of past states conditional on the past states:
 
 That is for a given $n$,
 
@@ -824,10 +832,10 @@ That is for a given $n$,
 =& P(X_{n+1} = j \mid X_{n} = i) ~~~\text{i.e. the values from $1, ... n-1$ don't add any new information}\\
 \end{align*}
 
-A sequence of random variables that have the Markov property is simply caled a Markov Chain.
+A sequence of random variables that have the Markov property is simply called a Markov Chain.
 \end{definition}
 
-That is, we allow for one level of depdendency in a sequence of random variables. This is probably not enough to be a true representation of the world --- past events from varying time influence our current state --- but it is much better than the completely independent world we would have dealt with otherwise. 
+That is, we allow for one level of dependency in a sequence of random variables. This is probably not enough to be a true representation of the world --- past events from varying time influence our current state --- but it is much better than the completely independent world we would have dealt with otherwise. 
 
 The complexity introduced is still simple enough that we can express our probabilities neatly into writing. Because we need to worry about one step across two time periods, we deal with $k \times k$ probabilities, where $k$ is the number of possible states. This leads us to organize them into a table, or matrix:
 
@@ -860,9 +868,9 @@ After many times, the product will eventually become something like:
 \vdots  & \vdots  & \vdots  & \ddots
 \end{pmatrix}\]
 
-That is, the values of the probablities in each column will eventually become the same number. Intuitively, after many turns of systematic status change, your original position at $t= 0$ becomes irrelevant. 
+That is, the values of the probabilities in each column will eventually become the same number. Intuitively, after many turns of systematic status change, your original position at $t= 0$ becomes irrelevant. 
 
-The probablities $\pi_1,... \pi_k$ is a quantity of interest; it quantitifies the probability that an observation in the Markov Chain ends up in a statuses $1, ...k$ after a number of changes. It is possible to compute what the values of these are just from the probability transition martrix (which contains information about one step).
+The probabilities $\pi_1,... \pi_k$ is a quantity of interest; it quantifies the probability that an observation in the Markov Chain ends up in a statuses $1, ...k$ after a number of changes. It is possible to compute what the values of these are just from the probability transition matrix (which contains information about one step).
 
 In a simple two-state example, the probabilities are 
 
@@ -872,7 +880,7 @@ One more iteration of the Markov chain should not change the probabilities, so
 
 \[ \begin{pmatrix} \pi_1 & \pi_2\\ \pi_1 & \pi_2 \end{pmatrix}\begin{pmatrix} P_{1,1} & P_{1,2}\\ P_{2,1} & P_{2,2} \end{pmatrix} =  \begin{pmatrix} \pi_1 & \pi_2\\ \pi_1 & \pi_2 \end{pmatrix}\]
 
-From matrix algebra, this equation indicates a set of equalities, with two unknowns $(\pi_1, \pi_2)$ and know values $(P_{1,1}, P_{1,2}, P_{2,1}, P_{2,2})$
+From matrix algebra, this equation indicates a set of qualities, with two unknowns $(\pi_1, \pi_2)$ and know values $(P_{1,1}, P_{1,2}, P_{2,1}, P_{2,2})$
 
 
 \begin{align*}
@@ -917,7 +925,7 @@ We construct a simple model of class mobility by setting up a Markov Chain. In t
     \end{align*}
 
 
-(c) Compute steady-state probabilities of a citizen being in the lower class($\pi_L$), in the middle class ($\pi_M$) or in the upper class ($\pi_U$). Remember that the steady-state probabilities sum to 1, $\pi_L + \pi_M + \pi_U = 1$. Yout  final answer should be in simple fractions.)
+(c) Compute steady-state probabilities of a citizen being in the lower class($\pi_L$), in the middle class ($\pi_M$) or in the upper class ($\pi_U$). Remember that the steady-state probabilities sum to 1, $\pi_L + \pi_M + \pi_U = 1$. Your  final answer should be in simple fractions.)
 
 
 \tcbox{Answer}
