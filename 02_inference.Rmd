@@ -23,9 +23,9 @@ library(car)
 ```
 
 
-\epigraph{``We are so lucky that we live in a world where the Central Limit Theorem is true''}{My first stats professor in undergrad}
+\epigraph{``We are so lucky that we live in a world where the Central Limit Theorem is true''}{My first stats professor}
 
-\noindent \footnotesize{(These notes are designed to accompany a social science statistics class. They emphasize important ideas and tries to connect them with verbal explanation and worked examples. However, they are not meant to be comprehensive, and they may contain my own errors, which I will fix as I find them.  I rely on multiple sources for explanation and examples\footnote{DeGroot and Schervish (2012), Blitzstein and Morris (unpublished manuscript), Imai (2017), Diez, Barr, and Cetinkaya-Rundel (2015), Moore, McCabe, and Craig (2002)}.)}
+\noindent \footnotesize{(These notes are designed to accompany a social science statistics class. They emphasize important ideas and tries to connect them with verbal explanation and worked examples. However, they are not meant to be comprehensive, and they may contain my own errors, which I will fix as I find them.  I rely on multiple sources for explanation and examples\footnote{DeGroot and Schervish (2012), Blitzstein and Morris (unpublished manuscript), Imai (2017), Diez, Barr, and Cetinkaya-Rundel (2015), Moore, McCabe, and Craig (2002)}. Thanks to the students of API-201Z (2017) for their feedback and Matt Blackwell for inspiration.)}
 
 \normalsize
 
@@ -282,15 +282,19 @@ ggsave("Sections/figures/clt_demo.pdf", g, w = 10, h = 10)
 
 We want to know the prevalence of a virus in a river. The local government is interested in knowing whether there is over 15 parts per milliliter of the virus --- a sign of a dangerous contamination. We cannot measure the entire river, so a virologist decides to take several samples of measurements from the river and make an inference from that sample.  Let the r.v. $X$ be the prevalence of the virus (in parts/mm).
 
+\bigskip
+
 (a) Suppose that we know the mean of $X$ is 13 and the variance of $X$ is 16. Now suppose the virologist takes one sample $n = 1$, call it $X_1$. What can we say about the distribution of this sample? 
 
 \tcbox{Answer} Not much. The expected value of the one sample is 13, but the sample size may be too small use the Central Limit Theorem. 
 
+\bigskip
 
 (b) Suppose that we know that $X$ is distributed Normal, in addition to the facts in part (b).  Now what do we know about $X_1$? 
 
 \tcbox{Answer} Now we know pretty much everything about $X_1$. $X_1 \sim \text{Normal}(\mu = 13, \sigma^2 = 16)$.
 
+\bigskip
 
 (c) Given the assumptions in parts (a) and (b), what is the probability that the virologist's first measurement will be more than 15, the danger threshold?
 
@@ -321,8 +325,9 @@ P(\bar{X}_{40} > 15) &= P\left(\frac{\bar{X}_{40} - 13}{4/\sqrt{40}} > \frac{15 
 
 (e) Why is the quantity in part (d) much smaller than the quantity in part (c), even though we were interested in the probability that a measurement is over the same threshold and the virologist was sampling from the same population?
 
-\tcbox{Answer} Because we had more sample in part (d), and the true mean happened to be different from our threshold of interest. We can simulate the distribution of $X_1$ and $\bar{X}_n$ (see figure). Because the sampling distribution with the larger $n$ had a smaller variance, there is much less area under the curve larger than 15 in that distribution. In other words, in distributions with smaller variance, values that are away from the mean become increasingly less likely to occur (almost by definition of variance).
+\tcbox{Answer} Because we had more sample in part (d), and the true mean happened to be different from our threshold of interest. We can simulate the distribution of $X_1$ and $\bar{X}_n$ (see Figure \ref{fig:xbarn}). Because the sampling distribution with the larger $n$ had a smaller variance, there is much less area under the curve larger than 15 in that distribution. In other words, in distributions with smaller variance, values that are away from the mean become increasingly less likely to occur (almost by definition of variance).
 
+\bigskip
 
 (f) How would the virologist go about making inferences if she did not know the true distribution of $X$?
 
@@ -330,20 +335,32 @@ P(\bar{X}_{40} > 15) &= P\left(\frac{\bar{X}_{40} - 13}{4/\sqrt{40}} > \frac{15 
   
 \end{example} \null\hfill\qedsymbol
 
-```{r, echo = FALSE}
-nsims <- 1000
-df_sims <- data.frame(X = c(rnorm(nsims, mean = 13, sd = sqrt(16)), rnorm(nsims, mean = 13, sd = sqrt(16/40))),
-                      n = c(rep(1, nsims), rep(40, nsims)))
 
-ggplot(df_sims, aes(x = X)) + 
-  facet_grid(n~., labeller = label_both) +
-  geom_histogram(bins = 30) +
-  geom_vline(xintercept = 15, linetype = "dashed") +
-  labs(x = expression(bar(X)[n]),
-       y = "",
-       title = expression(X%~%Normal(mu == 13, sigma^2==16)))
 
+```{r, echo = FALSE, eval = FALSE}
+
+range <- tibble(x = c(0, 26))
+g0 <- ggplot(range, aes(x = x)) +
+  scale_x_continuous(minor_breaks = NULL, breaks = c(0, 13, 15, 20)) +
+  scale_y_continuous(minor_breaks = NULL) +
+  labs(y = "Density", x = expression(plain("Values of the sample average")~bar(X)[n]~plain(", where each ")~X%~%Normal(mu == 13, sigma^2==16))) +
+  guides(color = guide_legend(title = "Distribution")) +
+  theme_gray()
+
+g0 +  
+  stat_function(fun = dnorm, args = list(mean = 13, sd = sqrt(16)), size = 0.5) +
+    stat_function(fun = dnorm, args = list(mean = 13, sd = 4/sqrt(1)),  xlim = c(15, max(range$x)), geom = "area", alpha = 0.3) +
+  stat_function(fun = dnorm, args = list(mean = 13, sd = sqrt(16 / 40)), size = 0.8) +
+  annotate(geom = "label", x = 16, y = 0.6, label = "When n = 40") +
+  annotate(geom = "label", x = 8, y = 0.08, label = "When n = 1")
+
+ggsave("figures/xbar_n.pdf", w = 7, h = 4)
 ```
+
+\begin{figure}[h]
+\caption{The distribution of the sample mean shrinks when n (the number of elements that comprise the mean) is large, which then reduces the probability of seeing $\bar{X}_n > 15$. \label{fig:xbarn}}
+\includegraphics[width=\textwidth]{figures/xbar_n.pdf}
+\end{figure}
 
 A function of a random variable is also a random variable, and we can use the rules of expectation and variance to make inferences on such a transformed r.v. Here is one example where we care about the sum rather than the mean of random variables:
 
@@ -907,7 +924,8 @@ which (a) follows a standard Normal distribution, and (b) allows analysts to giv
 
 \begin{example}[Effects of Medicaid on Diagnosis]
 
-Researchers from the Oregon Healthcare Experiment\footnote{Baicker, Katherine et al. 2013. ``The Oregon Experiment — Effects of Medicaid on Clinical Outcomes.'' \textit{New England Journal of Medicine} 368(18): 1713–22. \url{http://www.nejm.org/doi/10.1056/NEJMsa1212321}.} surveyed $20,745$ wait-list participants in Portland, OR, for a lottery to gain access to Medicaid. $n = 12,229$ respondents answered the survey (assume a random sample), and there among them  $n_C = 6,387$ lost the lottery and $n_T = 5,842$ won the lottery. The survey asked respondents a series of health questions; treatment for depression being one of them.  Suppose that the sample had the following distribution among respondents\footnote{These numbers are backed out of the analysis in the paper and may contain rounding error.}:
+Researchers from the Oregon Healthcare Experiment\footnote{Baicker, Katherine et al. 2013. ``The Oregon Experiment — Effects of Medicaid on Clinical Outcomes.'' \emph{New England Journal of Medicine} 368(18): 1713–22. \url{http://www.nejm.org/doi/10.1056/NEJMsa1212321}.} surveyed $20,745$ wait-list participants in Portland, OR, for a lottery to gain access to Medicaid. $n = 12,229$ respondents answered the survey (assume a random sample), and there among them  $n_C = 6,387$ lost the lottery and $n_T = 5,842$ won the lottery. The survey asked respondents a series of health questions; treatment for depression being one of them.  Suppose that the sample had the following distribution among respondents\footnote{These numbers are backed out of the analysis in the paper and may contain rounding error.}:
+\end{example}
 
 \bigskip
 
@@ -915,13 +933,14 @@ Researchers from the Oregon Healthcare Experiment\footnote{Baicker, Katherine et
 
 \bigskip
 
-\begin{tabularx}{X|cc}
-& Lost Medicaid Lottery & Won Medicaid Lottery \\\hline
+\begin{tabular}{r|cc}
+& Lost Medicaid Lottery & Won Medicaid Lottery \\\midrule
  Obtained treatment for depression  & 307  & 334 \\
 Did not obtain treatment for depression & 6080 & 5508 \\
 \multicolumn{3}{r}{\footnotesize (number of observations in cells)}\\
-\end{tabularx}
+\end{tabular}
 
+\bigskip
 
 Conduct a two-sided hypothesis test of proportions on whether the treatment rate is different between treatment and control.
 
@@ -1514,7 +1533,7 @@ converges to a Chi-squared test. The quantity of proportions is something quite 
 \end{error}
 
 
-## Chis-squared tests for goodness of fit (one-way)
+## Chi-squared tests for goodness of fit (one-way)
 
 The Chi-squared test is also referred to as a goodness of fit test, because one could set the baseline as any kind of model. The observed, discrete breakdown of sample data is then compared against the predicted breakdown to quantify the goodness of fit between the test and data. 
 
