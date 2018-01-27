@@ -20,10 +20,11 @@ library(haven)
 library(scales)
 library(ggrepel)
 library(stargazer)
+library(data.table)
 ```
 
 
-\footnotesize{\noindent (These notes are designed to accompany a social science statistics class. They emphasize important ideas and tries to connect them with verbal explanation and worked examples. However, they are not meant to be comprehensive, and they may contain my own errors, which I will fix as I find them. I rely on multiple sources for explanation and examples\footnote{DeGroot and Schervish (2012), Imai (2017), Diez, Barr, and Cetinkaya-Rundel (2015), Moore, McCabe, and Craig (2002), and notes by Matt Blackwell (2016)}.}
+\footnotesize{\noindent (These notes are designed to accompany a social science statistics class. They emphasize important ideas and tries to connect them with verbal explanation and worked examples. However, they are not meant to be comprehensive, and they may contain my own errors, which I will fix as I find them. I rely on multiple sources for explanation and examples\footnote{DeGroot and Schervish (2012), Imai (2017), Diez, Barr, and Cetinkaya-Rundel (2015), Moore, McCabe, and Craig (2002), and notes by Matt Blackwell (2016)}.  Thanks to the students of API-201Z (2017) for their feedback and Matt Blackwell for inspiration.)}
 
 \normalsize
 
@@ -126,11 +127,16 @@ samp <- slice(reversal, seq(1, nrow(reversal), length.out = 20))
 ```
 
 
-The first we look at is a scatter plot and correlation.
+The first thing we look at is a scatter plot and correlation.
 
-```{r, echo = FALSE}
-ajr + geom_text_repel(data = samp, aes(label = shortnam), color = "gray10", segment.alpha = 0.8)
+```{r, echo = FALSE, eval = FALSE}
+scatter <- ajr + geom_text_repel(data = samp, aes(label = shortnam), color = "gray10", segment.alpha = 0.8)
+ggsave("figures/ajr_scatter.pdf", scatter, w = 5, h = 4)
 ```
+
+\begin{figure}[H]
+\includegraphics[width = \linewidth]{figures/ajr_scatter.pdf}
+\end{figure}
 
 
 ```{r}
@@ -161,6 +167,9 @@ The residual (call it $\hat{u}$) of a regression model is the difference between
 \end{align*}
 \end{definition}
 
+\begin{error}[Residuals are observed minus fitted, not the other way around]
+Residuals are defined as the observed values minus the fited values, and the reverse is not a residual. To remember the order, you can think of the residual as something that is left over, and that the observed values came first: you first saw the data, then you estimated a model.  
+\end{error}
 
 So, how do we find out $\hat{\beta}$? In the inference section, we relied on the law of large numbers and the central limit theorem to make such guesses, often using the sample mean. In regression we deal with more than two different random variables and need to estimate two or more parameters ($\beta_0$, $\beta_1$, ...).
 
@@ -214,7 +223,7 @@ and can present the results in a regression table (Table \ref{tab:ajr}) that sho
 stargazer(ols_ajr, 
           type = "latex",
           digits = 2, 
-          header=  FALSE,
+          header =  FALSE,
           label = "tab:ajr",
           table.placement = "H",
           title = "The Reversal of Fortune in 91 Countries",
@@ -255,26 +264,38 @@ After a regression has been estimated, an analyst can use the estimated coeffici
 \[\hat{Y} = \hat{\beta}_0 + \hat{\beta}_1X_1\]
 \end{definition}
 
-Although the symbols $Y$ and $\hat{Y}$ look the same, and their values may look similar (if the regression is a good fit), they are fundamentally different in a statistical sense. Notice that there is no error term in the fitted equation. The fitted values $\hat{Y}$ is computed deterministically given the data and coefficients. In contrast, $Y$ is always conceived as a random variable, and the values of $Y$ we observe are realization from a random experiment. 
 
-This is why the $\epsilon_i$ term in the definition of the regression model is critical. 
-
-Visually, the residual is the vertical difference between the y-axis value and the fitted line.
-
-```{r, echo = FALSE}
-ajr + geom_smooth(method = "lm", se = FALSE, color = "black")
+```{r, echo = FALSE, eval = FALSE }
+ajr +
+  geom_smooth(method = "lm", se = FALSE, color = "black")
+ggsave("figures/ajr_fitted.pdf", w = 5, h = 3)
 ```
 
+Notice that in the definition above, the only component in the righthand side that will change from country to country is $X_1$. That means there is a 1:1 relationship between $X_1$ and $\hat{Y}$, as the new line in Figure \ref{fig:ajr_fitted}. 
+
+\begin{figure}[tbh]
+\caption{Observed values (points) and fitted values (y-axis values of the solid line) from OLS regression. \label{fig:ajr_fitted}}
+\includegraphics[width = \linewidth]{figures/ajr_fitted.pdf}
+\end{figure}
 
 
-Thus, each point has its own residual, and it is useful to plot these residuals on its own. The x-axis  can be a predictor variable of interest. These residuals plot show how well the regression line fitted the data, where the data is sorted by a dimension of interest.
+Although the symbols $Y$ and $\hat{Y}$ look the same, and their values may look similar (if the regression is a good fit), they are fundamentally different in a statistical sense. Notice that there is no error term in the fitted equation. The fitted values $\hat{Y}$ is computed deterministically given the data and coefficients. In contrast, $Y$ is always conceived as a random variable, and the values of $Y$ we observe are realization from a random experiment. This is why the $\epsilon_i$ term in the definition of the regression model is critical. 
 
-```{r, echo = FALSE}
-ggplot(reversal, aes(x = lpd1500s, y = residual)) +
-  geom_point() +
+Visually, the residual is the vertical difference between the y-axis value and the fitted line. Thus, each point has its own residual, and it is useful to plot these residuals on its own, as in Figure \ref{fig:ajr_resids}. The x-axis  can be a predictor variable of interest. These residuals plots show how well the regression line fitted the data, where the data is sorted by a dimension of interest.
+
+```{r, echo = FALSE, eval = FALSE}
+ajr %+% reversal +
+  aes(y = residual) +
   geom_hline(yintercept = 0, linetype = "dashed") +
-  geom_text_repel(data = samp, aes(label = shortnam), color = "gray10", segment.alpha = 0.8)
+  geom_text_repel(data = samp, aes(label = shortnam), color = "gray10", segment.alpha = 0.8) +
+  ylab("Residual from OLS")
+ggsave("figures/ajr_resids.pdf", w = 5, h = 3)
 ```
+
+\begin{figure}[H]
+\caption{Observed residuals (points) from OLS regression. \label{fig:ajr_resids}}
+\includegraphics[width = \linewidth]{figures/ajr_resids.pdf}
+\end{figure}
 
 
 This residual plot turns out to be very useful as a diagnostic tool to see if the assumptions required for _inference_ using OLS is valid. Although the OLS formula always gives the best prediction in the least squares sense, we need to confer more meaning and inferential value to those estimates when we start making claims about the population relationship. 
@@ -373,7 +394,7 @@ That is for each observation $i = 1, ....n$, the model says that
 
 \begin{example}[Predicting Medicare Prices by Zipcode Demographics]
 
-We use Center for Medicare and Medicaid Services (CMS) data on how much a hospital charges for Medicare fee-for-service beneficiaries on the category "Hospital Clinic Visits" (APC 0634). Each row is a hospital, the main outcome \texttt{avg\_payment} is the average dollar amount that spent on the Clinic Visits category, and explanatory variables are measures of some demographics in the zipcode where the variable is located.
+We use Center for Medicare and Medicaid Services (CMS) data on how much a hospital charges for Medicare fee-for-service beneficiaries on the category "Hospital Clinic Visits" (\texttt{APC 0634}). Each row is a hospital, the main outcome \texttt{avg\_payment} is the average dollar amount that spent on the Clinic Visits category, and explanatory variables are measures of some demographics in the zipcode where the variable is located.
 \end{example}
 
 ```{r}
@@ -383,7 +404,7 @@ cms <- read_dta("data/clinic_payment.dta")
 
 
 ```{r, include = FALSE}
-cms_long <- data.table::melt(cms, id.vars = c("zip", "avg_payment"),
+cms_long <- data.table::melt(as.data.table(cms), id.vars = c("zip", "avg_payment"),
                  measure.vars = c("log_density", 
                                   "log_med_inc",
                                   "log_med_rent", 
@@ -395,13 +416,18 @@ cms_long <- data.table::melt(cms, id.vars = c("zip", "avg_payment"),
 
 There are many zip-code level variables that may contribute to price differences, and we would like to come up with a model to predict that price difference given a set of explanatory variables. A multivariate OLS regression makes this task straightforward, estimating the set of coefficients $\beta_0, ... \beta_k$ that produces a best-fit (in terms of squared residuals) line.
 
-```{r, echo = FALSE, warning = FALSE}
+```{r, echo = FALSE, warning = FALSE, eval = FALSE}
 ggplot(cms_long, aes(x = value, y = avg_payment)) +
   facet_wrap(~ `Explanatory Var`, scales = "free_x", labeller = label_both) +
   scale_y_continuous(label = scales::dollar, name = "Average Medicare Payment for Clinical Visit") +
   scale_x_continuous(name = "Explanatory Variable") +
   geom_point(alpha = 0.1)
+ggsave("figures/cms_scatter.pdf", w = 7, h = 4.5)
 ```
+
+\begin{figure}[H]
+\includegraphics[width = \linewidth]{figures/cms_scatter.pdf}
+\end{figure}
 
 
 
@@ -449,5 +475,9 @@ But the interpretation changes. The first estimate can be interpreted as saying 
 \qed
 
 Adding more explanatory variables can be a double-edged sword. In general, adding more and more explanatory variables is a good thing, as it provides more information for OLS to make a good linear approximation to the data generating function. In particular, variables that contribute to the outcome variable but are not included in the regression (due to lack of data or an incorrect hypothesis) are called \emph{omitted variables}, and omitted variables cause bias, i.e. $E(\hat{\beta}_1)$ is no longer equal to $\beta_1$. Including these variables solves the omitted variable problem, but it may introduce new problems, especially if the newly-introduced variable is an intermediate outcome of the explanatory variable of interest and the outcome variable. For more advanced reading on this important issue, I recommend either of the two books by Josh Angrist and Jorn-Steffen Pischke\footnote{\emph{Mastering 'Metrics} is an upper-level undergraduate text, and the more well-known \emph{Mostly Harmless Econometrics} is more advanced.}.
+
+
+
+[To be added: Interpreting $R^2$, Interpreting statitstical significance.]
 
 
