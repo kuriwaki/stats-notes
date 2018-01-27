@@ -1,10 +1,16 @@
 \documentclass[11pt,article,oneside]{memoir}
+
 \usepackage{org-preamble-xelatex}
+\usepackage[margin=1.4in]{geometry}
 \usepackage{tikz}
 \usetikzlibrary{arrows,positioning}
 \usepackage[reqno]{amsmath}
 \usepackage{amssymb,enumerate}
 \usepackage{lmodern}
+
+\usepackage{tabularx}
+\usepackage{booktabs}
+
 
 % Theorems
 \usepackage{amsthm}
@@ -83,13 +89,15 @@
 \newcommand{\XX}{\ensuremath{\X'\X}}
 \newcommand{\XXinv}{\ensuremath{\left(\XX\right)^{-1}}}
 \newcommand{\hatsig}{\ensuremath{\hat{\sigma}^2}}
-\newcommand{\red}[1]{\textcolor{red!60}{#1}}
-\newcommand{\blue}[1]{\textcolor{blue!60}{#1}}
 \newcommand{\indep}{\perp\!\!\!\perp}
 \newcommand{\inprob}{\stackrel{p}{\rightarrow}}
 \newcommand{\indist}{\stackrel{d}{\rightarrow}}
+
 \definecolor{dodgerblue}{RGB}{52,152,219}
 \definecolor{offwhite}{RGB}{236, 240, 241}
+\definecolor{mygray}{gray}{0.9}
+\definecolor{crimson}{RGB}{156,0,0}
+
 $if(listings)$
 \usepackage{listings}
 $endif$
@@ -104,6 +112,7 @@ $if(verbatim-in-note)$
 $endif$
 $if(tables)$
 \usepackage{longtable}
+\usepackage{tabularx}
 $endif$
 
 
@@ -138,13 +147,15 @@ $if(date)$
 $endif$
 
 \begin{document}  
+
 \setkeys{Gin}{width=1\textwidth} 	
 \setromanfont[Mapping=tex-text,Numbers=OldStyle]{Minion Pro} 
-% \setsansfont[Mapping=tex-text]{Latin Modern Sans} 
 \setmonofont[Mapping=tex-text,Scale=0.8]{Monaco}
+
 \chapterstyle{article-4} 
 \pagestyle{kjh}
 
+\hypersetup{allcolors=crimson}
 
 $if(title)$
 \maketitle
@@ -152,7 +163,6 @@ $endif$
 
 $if(toc)$
 {
-\hypersetup{linkcolor=black}
 \setcounter{tocdepth}{$toc-depth$}
 \tableofcontents
 }
