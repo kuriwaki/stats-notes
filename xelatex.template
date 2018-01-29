@@ -10,6 +10,8 @@
 
 \usepackage{tabularx}
 \usepackage{booktabs}
+\usepackage{hyperref}
+\usepackage{float}
 
 
 % Theorems
@@ -155,7 +157,13 @@ $endif$
 \chapterstyle{article-4} 
 \pagestyle{kjh}
 
-\hypersetup{allcolors=crimson}
+\hypersetup{allcolors=crimson, 
+            colorlinks,
+            pdfpagelabels,
+            bookmarksnumbered,
+            backref,
+            pagebackref,
+            pdfauthor={Shiro Kuriwaki}}
 
 $if(title)$
 \maketitle
