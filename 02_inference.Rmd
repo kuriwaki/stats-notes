@@ -342,7 +342,7 @@ P(\bar{X}_{40} > 15) &= P\left(\frac{\bar{X}_{40} - 13}{4/\sqrt{40}} > \frac{15 
 range <- tibble(x = c(0, 26))
 g0 <- ggplot(range, aes(x = x)) +
   scale_x_continuous(minor_breaks = NULL, breaks = c(0, 13, 15, 20)) +
-  scale_y_continuous(minor_breaks = NULL) +
+  scale_y_continuous(minor_breaks = NULL, breaks = NULL) +
   labs(y = "Density", x = expression(plain("Values of the sample average")~bar(X)[n]~plain(", where each ")~X%~%Normal(mu == 13, sigma^2==16))) +
   guides(color = guide_legend(title = "Distribution")) +
   theme_gray()
@@ -443,6 +443,7 @@ ggplot(range, aes(x = x)) +
   stat_function(fun = d_t20,  aes(color = "t(df = 20)"), size = 1) +
   stat_function(fun = dnorm, aes(color = "Normal(0, 1)")) +
   scale_color_manual("Distribution", values = c("black",  "#a63603", "#e6550d", "#fd8d3c")) +
+    scale_y_continuous(breaks = NULL) +
   labs(y = "Density", x = "Values of the Random Variable")
 
 ggsave("figures/t-dist.pdf", w = 5, h = 2.5)
@@ -566,6 +567,7 @@ ggplot(range, aes(x = x)) +
   stat_function(fun = dnorm, args = list(mean = 6.5, sd = 0.25/sqrt(3)),  xlim = c(6.37, max(range$x)), geom = "area", alpha = 0.5)  +
   stat_function(fun = dnorm, args = list(mean = 6.5, sd = 0.25/sqrt(3)),  xlim = c(min(range$x), 5.63), geom = "area", alpha = 0.5)  +
   scale_x_continuous(breaks= c(5, 6, 6.37, 7)) +
+  scale_y_continuous(breaks = NULL) +
   guides(linetype = guide_legend(title = "Distribution under...")) +
   labs(y = "Density", x = expression(bar(X)),
        caption = "Shaded = rejection region (of null);\nCutoff determined by a test with Type Error Rate 0.01. ")
@@ -1002,7 +1004,7 @@ The fix, in this paired example case, is to difference out individual characteri
 
 Did state-level turnout change between 2012 and 2016? Here are the turnout levels for all 50 states and DC:
 
-\includegraphics[width = \textwidth]{figures/turnout_state.pdf}
+\includegraphics[width = 1.1\textwidth]{figures/turnout_state.pdf}
 
 Although this is a two-sample test, constructing the two-sample test statistic 
 
@@ -1043,20 +1045,12 @@ t.test(t2016$trn, t2012$trn, paired = FALSE) # Incorrect specification
 ```{r, eval= FALSE, echo = FALSE}
 read_trn <- function(file, year) {
   read_csv(file, skip = 1) %>%
-  rename(st = `State Abv`) %>%
+  rename(st = `X1`) %>%
   mutate(trn = `Highest Office` / `Voting-Eligible Population (VEP)`, year = year) %>% 
   filter(!is.na(st)) %>%
   arrange(st) %>%
   select(st, trn, year)
 }
-
-t2008 <- read_csv("data/2008_turnout.csv", skip = 1) %>% 
-  slice(-1) %>%
-  mutate(trn = `Highest Office` / `Voting-Eligible Population (VEP)`, 
-         year = 2008,
-         st = row.names(States)) %>% 
-  arrange(trn) %>%
-  select(st, trn, year)
 
 t2012 <- read_trn("data/2012_turnout.csv", 2012)
 t2016 <- read_trn("data/2016_turnout.csv", 2016)
@@ -1077,11 +1071,12 @@ save.image("data/turnout.rda")
 ggplot(t_all, aes(x = forcats::fct_inorder(st), y = trn, shape = factor(year))) + 
   scale_y_continuous(label = percent) +
   geom_point() +
-  scale_shape_manual(values = c(1, 2), labels = c("2012 (Obama - Romney)", "2016 (Trump - Clinton)")) +
+  coord_flip() +
+  scale_shape_manual(values = c(19, 17), labels = c("2012 (Obama - Romney)", "2016 (Trump - Clinton)")) +
   guides(shape = guide_legend(title = "Year")) +
-  labs(y = "Turnout (as percentage of VEP)",
+  labs(y = "Turnout (as percentage of Voting Eligible Population)",
        x = "State")
-ggsave("figures/turnout_state.pdf", w = 12, h = 5)
+ggsave("figures/turnout_state.pdf", w = 7, h = 5)
 ```
 
 
@@ -1279,7 +1274,7 @@ The intuition of the Squared Sum between groups is that the more a particular gr
 
 Of course, whether or not this difference (squared then summed) is big or small is relative measure. The baseline we compare to is the overall noisiness of the sample means themselves. Within  each group $i$, suppose there are $j = $, $1, 2, ... n_j$ observations. Then the variability within group $i$ is another sum of squares:
 
-\[\text{Squared Sum (of Differences) within a Group} \sum^{n_j}_{j = 1}(X_{ij} - \bar{X}_i)^2\]
+\[\text{Squared Sum (of Differences) within a Group} =  \sum^{n_j}_{j = 1}(X_{ij} - \bar{X}_i)^2\]
 
 And we can later add $k$ of these together. 
 
@@ -1620,15 +1615,15 @@ Using random variables, if r.v.'s $X$ and $Y$ are independent, that means their 
 P(X = x, Y = y) = P(X = x)P(Y = y) \label{eq:chi2indp}
 \end{align*}
 
-In a Chi-squared test of independence, we will set the relaitonship expressed in equation \ref{eq:chi2indp} as the null hypothesis. Observing evidence that contradicts this claim (as expressed by a small p-value) will be a sign that the two variables are dependent with each other. 
+In a Chi-squared test of independence, we will set the relationship expressed in equation \ref{eq:chi2indp} as the null hypothesis. Observing evidence that contradicts this claim (as expressed by a small p-value) will be a sign that the two variables are dependent with each other. 
 
-Often times our data are counts, as we see in tables and cross-tabs. As long as we have a pair of observed counts of an event and the expected count if the same event under some hypothesis, then Chi-squared tests can be deployed pretty flexibly. In a test of Chi-squared tests of independnece, there is nothing inherent about Chi-squared statistics that says "independence", but because have clear expecations about the frequency of discrete events _if_ their r.v.'s are independent, we can use a Chi-squared test to quantify how likely the data would have been observed under the null hypothesis. 
+Often times our data are counts, as we see in tables and cross-tabs. As long as we have a pair of observed counts of an event and the expected count if the same event under some hypothesis, then Chi-squared tests can be deployed pretty flexibly. In a test of Chi-squared tests of independence, there is nothing inherent about Chi-squared statistics that says "independence", but because have clear expectations about the frequency of discrete events _if_ their r.v.'s are independent, we can use a Chi-squared test to quantify how likely the data would have been observed under the null hypothesis. 
 
 The actual steps for a Chi-squared test is best seen through an actual example. 
 
 \begin{example}[Different Perceptions]
 
-A survey asked 189 respondents their income and whether or not their financial status is \underline{worse}, \underline{same}, or \underline{better} compared to the past two years. The Table below is a cross-tab of how many individuals ended up in each cell. From these observed counts, would you infer that one's income class and their perception of their change in finance status is indpendent? 
+A survey asked 189 respondents their income and whether or not their financial status is \underline{worse}, \underline{same}, or \underline{better} compared to the past two years. The Table below is a cross-tab of how many individuals ended up in each cell. From these observed counts, would you infer that one's income class and their perception of their change in finance status is independent? 
 
 \end{example}
 
@@ -1650,21 +1645,21 @@ A survey asked 189 respondents their income and whether or not their financial s
 
 \tcbox{Answer}
 
-Each of the nine cells in the cross-tab is the count of a joint occurence of two events. The row sums and column sums on the side is the count of the an occurence of a marginal (in the sense of marginal probabilities, not in the sense of unimportant) event.  Remembering our implication of independence, if our two discrete variables -- income and perception -- were indpendent, the nine relationships below should hold:
+Each of the nine cells in the cross-tab is the count of a joint occurrence of two events. The row sums and column sums on the side is the count of the an occurrence of a marginal (in the sense of marginal probabilities, not in the sense of unimportant) event.  Remembering our implication of independence, if our two discrete variables -- income and perception -- were independent, the nine relationships below should hold:
 
 \begin{align*}
-P(\text{Income} = \text{Under \$20,000}, \text{Status} =  \text{Worse})  = P(\text{Income} = \text{Under \$20,000})P(\text{Status} =  \text{Worse})
-P(\text{Income} = \text{\$20,000 - \$35,000}, \text{Status} =  \text{Worse})  = P(\text{Income} = \text{\$20,000 - \$35,000})P(\text{Status} =  \text{Worse})
-... 
-P(\text{Income} = \text{Over \$35,000}, \text{Status} =  \text{Better})  = P(\text{Income} = \text{Over \$35,000})P(\text{Status} =  \text{Better})
-\end{aling*}
+P(\text{Income} = \text{Under \$20,000}, \text{Status} =  \text{Worse})  &= P(\text{Income} = \text{Under \$20,000})P(\text{Status} =  \text{Worse})\\
+P(\text{Income} = \text{\$20,000 - \$35,000}, \text{Status} =  \text{Worse})  &= P(\text{Income} = \text{\$20,000 - \$35,000})P(\text{Status} =  \text{Worse})\\
+... \\
+P(\text{Income} = \text{Over \$35,000}, \text{Status} =  \text{Better})  &= P(\text{Income} = \text{Over \$35,000})P(\text{Status} =  \text{Better})
+\end{align*}
 
 For inference we need to make a comparison between a expected value and the observed value. So in this case, what next? In a Chi-square test, we _take the marginal counts as given_ and see if the observed distribution of joint counts are close enough to the counts implied by independence. 
 
 That is, let's set aside the actual data in the 9 cells and examine the marginal distribution of the two variables. Converted in terms of proportions, we get:
 
 
-\begin{table}[!h]
+\begin{table}[H]
 \centering
 \begin{tabular}{r rrr | r}
 \hline
@@ -1685,7 +1680,7 @@ Now it's time to explicitly state our null hypothesis:
 
 Now we populate the empty cells with counts under $H_0$: that is, holding the marginal proportions fixed and assuming that the two events are independent. Remember independence implies that joint probabilities are equal to the product of the marginal probabilities, so
 
-\begin{table}[!h]
+\begin{table}[H]
 \centering
 \begin{tabular}{r rrr | r}
 \hline
@@ -1706,7 +1701,7 @@ Now that we have nine observed values and their nine expected counterparts, we c
 
 \[\text{Test stat = }\underbrace{\frac{(13.6 - 20)^2}{13.6}}_{3.00} + \underbrace{\frac{(15.3 - 15)^2}{15.3}}_{0.006} + ....  = 7.75 \]
 
-Is 7.75 big enough to reject the null hypothesis? It depends on the parameters of the distribution we will comapre this against. For a two-way table, the appropriate degrees of freedom for the Chi-squared distribution under the null happens to be  the product of the number of rows -- minus one -- and the number of columns -- also minus one. 
+Is 7.75 big enough to reject the null hypothesis? It depends on the parameters of the distribution we will compare this against. For a two-way table, the appropriate degrees of freedom for the Chi-squared distribution under the null happens to be  the product of the number of rows -- minus one -- and the number of columns -- also minus one. 
 
 In this example there are three categories of the row variable and three categories of the column variable, so under null our Chi-squared distribution should be distributed: $\chi^2_{(3-1)*(3-1)}  = \chi^2_{4}$
 
@@ -1715,7 +1710,7 @@ So our p-value is
 pchisq(q = 7.75, df = 4, lower.tail = FALSE)
 ```
 
-There is roughly a 10 percent probability that we will observe deviations from the implications of independence that are as extreme as the ones we observe. In simpler words, the likelihood that the two variables are in-truth indepdent seems unlikely.
+There is roughly a 10 percent probability that we will observe deviations from the implications of independence that are as extreme as the ones we observe. In simpler words, the likelihood that the two variables are in-truth independent seems unlikely.
 
 \qed
 
