@@ -51,6 +51,10 @@ I will refer to this as the "counting definition" of probability. It is not tech
 
 This is a straightforward way of thinking about uncertainty and probability. Straightforward doesn't mean easy: counting sequences of complex events can get taxing quickly. For example, we count when we sample "with replacement" or "without replacement", and that requires different measures of counting. Problems involving complex counting schemes are a type of combinatorics problem\footnote{Here's a hard one: ``Suppose a class has 20 students, and there are exactly 20 seats in the classroom. Everyone attends both of the first two days. On both days, the students choose their seats completely randomly, one student per seat.  What is the probability that no one sits in the same seat on both days?'' (Blitzstein and Huang, 1.50)}.
 
+\begin{example}[$n$ choose $k$]
+To fulfill a degree, a student can choose 4 out of 8 courses, with the constraint the at least 1 of the 4 chosen courses must be a statistics course. Suppose that 3 out of the 8 possible courses are statistics courses.  How many permissible choices of a course schedule are there?
+\end{example}
+
 On the other hand, the counting definition of probability can only get us so far. Consider the following question: What is the probability that aliens exist? A naive version of the counting definition would give the answer $\frac{1}{2}$:
 
 $$\frac{\{\text{Aliens exist}\}}{\{\text{Aliens exist, Aliesn don't exist}\}}$$
@@ -815,7 +819,7 @@ So, there is a 57.9\% chance that a five-day vacation in Europe will cost less t
 \qed
 
 
-# Applications: Markov Chains
+# Applications: Markov Chains (Extra)
 
 Many real-world phenomena are dependent in systematic ways -- most obviously, present status depends in some way on past status. Considering problems where data comes from an independently draw sequence of random variables. Dependent events are hard to model, because the joint probability of a set of events happening is no longer the product of the single components. Intuitively, recall how the variance of the sum of two random variables was not just the sum of each of the variances, but includes a covariance term. Complexity adds up when we start to look at dependent variables jointly.
 

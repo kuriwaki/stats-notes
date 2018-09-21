@@ -13,6 +13,9 @@
 \usepackage{hyperref}
 \usepackage{float}
 
+% Indent?
+\setlength\parindent{0pt}
+
 
 % Theorems
 \usepackage{amsthm}
