@@ -127,7 +127,11 @@ Rearranging the terms (bringing the denominator on the left-hand side to the rig
 
 This also has a English translation if we think of the condition as coming temporally prior. First, $B$ occurs (with probability $P(B)$). Then the probability of $A$ and $B$ both occurring is the probability that you get $A$ conditional on $B$  ($P(A \mid B)$) after getting $B$. Thus we multiply  the two.
 
-In naive probability, often with using cards and die, we are used to writing $P(A_1 \cap A_2 \cap ... A_3)$ as the product $P(A_1)P(A_2)P(A_3)$. But we should be cautious in doing this switch -- this only holds when all events are independent together (and in the social world, not many things are).
+\begin{error}[Mistaking $A\mid B$ as an event]
+Conditioning can only happen once, and it is a statement that is distinct from union operations. So when we say $P(A \mid B)$, that is \emph{not} the probability of an event "$A\mid B$" -- that is not an event (category error). We stick to the original definition; as the event that $A$ occurs given that $B$ has occurs. 
+\end{error}
+
+In naive probability, often with using cards and dice, we are used to writing $P(A_1 \cap A_2 \cap ... A_3)$ as the product $P(A_1)P(A_2)P(A_3)$. But we should be cautious in doing this switch -- this only holds when all events are independent together (and in the social world, not many things are).
 
 Note that we could have written the conditional probability with a different quantity,  $P(B \mid A) = \frac{P(B \cap A)}{P(A)}$ and then get $P(A \cap B) = P(B \mid A)P(A)$. Recall that $P(A \cap B)$ and $P(B \cap A)$ are equivalent.
 
@@ -180,9 +184,7 @@ P(A \cap B) = P(A)P(B)
 In English, when you're told for example two events (e.g. two scandals) developed independently, the first image that might come to mind is that the two events are separate. However, this impression can be misleading!
 
 \begin{error}[Independence and Disjointness]
-Independence and Disjointness are two different concepts. The former does not imply the latter and the latter does not imply the former.
-
-In the simplest example, consider a single coin flip. There are two events, Heads or Tails. These are disjoint (both cannot happen at the same time) but they are clearly \emph{dependent}.If you know a flip is Heads, it is definitely not Tails!
+Independence and Disjointness are two different concepts. The former does not imply the latter and the latter does not imply the former. In the simplest example, consider a single coin flip. There are two events, Heads or Tails. These are disjoint (both cannot happen at the same time) but they are clearly \emph{dependent}.If you know a flip is Heads, it is definitely not Tails!
 \end{error}
 
 The clearest and safest way to understand independence might be through again relying on conditional probability. Two events are independent if knowing information about one event does not \emph{add} or \emph{detract} information about another.
@@ -215,7 +217,7 @@ Bayes Rule is one of the most well-known of such formulations.
 
 \begin{definition}[Bayes Rule]
 \[P(A \mid B) = \frac{P(B \mid A)P(A)}{P(B\mid A_1)P(A_1) + P(B \mid A_2)P(A_2) + \cdots + P(B \mid A_k)P(A_k)}\]
-For a partition of $A$: $A_1, A_2, \cdots A_k$
+For a partition of $A$ denoted as $A_1, A_2, \cdots A_k$
 \end{definition}
 
 But the intermediary formulations we derive from Bayes Rule from the definition of conditional probability are equally important
