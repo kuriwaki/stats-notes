@@ -15,6 +15,7 @@
 
 % Indent?
 \setlength\parindent{0pt}
+\setlength\parskip{5pt}
 
 
 % Theorems
@@ -56,9 +57,11 @@
 % Hide header
 \makeatletter
 \renewcommand\tableofcontents{%
+    \setlength\parskip{0pt}
     \@starttoc{toc}%
 }
 \makeatother
+\setlength\parskip{5pt}
 
 % Blitzstein
 \newcommand{\var}{\textnormal{Var}}
