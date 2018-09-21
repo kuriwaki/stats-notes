@@ -13,13 +13,15 @@ output:
 ---
 
 
-\footnotesize{\noindent (These notes are designed to accompany a social science statistics class. They emphasize important ideas and tries to connect them with verbal explanation and worked examples. However, they are not meant to be comprehensive, and they may contain my own errors, which I will fix as I find them. I rely on multiple sources for explanation and examples\footnote{DeGroot and Schervish (2012), Blitzstein and Huang (2014), Blitzstein and Morris (unpublished book), and Imai (2017)}. Thanks to the students of API-201Z (2017) for their feedback and Matt Blackwell for inspiration.)}
+\epigraph{``Experts estimate a 35\% chance of a U.S. civil war over the next ten to fifteen years. What do historians think? \url{http://nyer.cm/MadCpII}''}{\href{https://twitter.com/NewYorker/status/1000743583161507841}{Tweet} by \emph{The New Yorker} (2018)}
+
+\footnotesize{\noindent (These notes are designed to accompany a social science statistics class. They emphasize important ideas and tries to connect them with verbal explanation and worked examples. However, they are not meant to be comprehensive, and they may contain my own errors, which I will fix as I find them. I rely on multiple sources for explanation and examples.\footnote{DeGroot and Schervish (2012), Blitzstein and Huang (2014), Blitzstein and Morris (unpublished book), and Imai (2017)} Thanks to the students of API-201Z (2017) for their feedback and Matt Blackwell for inspiration.)}
 
 \normalsize
 
 # Where are we? Where are we going?
-The first part of a applied statistics class often starts with probability, a fundamental concept in quantitative reasoning\footnote{But see Imai (2017) for a flipped order.}. Probability is especially important for policy makers and social scientists, who must make inferences and predictions about the social world. Probability has an every day intuition associated with it, but to think about random variables and distributions requires some formal definitions.
-
+An applied statistics class often starts with probability, a fundamental concept in quantitative reasoning about data.\footnote{But see Imai (2017) for a flipped order.} Probability is especially important for policy makers and social scientists, who must make inferences and predictions about the social world. Probabilistic statements are intuitive and commonplace, but as the headline quoted above highlights, our intuitions can lead us awry. To think clearly requires some formal definitions, as well as the concept of about random variables and distributions.
+\medskip
 Probability and inference are mirror images of each other. After probability the class moves on to inference. After that, we move on to models  (namely linearly regression) for making inferences -- the credibility of these models rests on statements about the distribution of the estimators used. Throughout, probability is fundamental.
 
 
@@ -49,7 +51,7 @@ P(\text{event}) = \frac{\text{Number of events}}{\text{Number of possibilities}}
 
 I will refer to this as the "counting definition" of probability. It is not technically correct but it is simple: We count up the number of events that we care about, we count up the number of all possible outcomes, and then we divide the former by the latter. This is how we often think when asked problems like "What is the probability that I roll a 2 from a die?".
 
-This is a straightforward way of thinking about uncertainty and probability. Straightforward doesn't mean easy: counting sequences of complex events can get taxing quickly. For example, we count when we sample "with replacement" or "without replacement", and that requires different measures of counting. Problems involving complex counting schemes are a type of combinatorics problem\footnote{Here's a hard one: ``Suppose a class has 20 students, and there are exactly 20 seats in the classroom. Everyone attends both of the first two days. On both days, the students choose their seats completely randomly, one student per seat.  What is the probability that no one sits in the same seat on both days?'' (Blitzstein and Huang, 1.50)}.
+This is a straightforward way of thinking about uncertainty and probability. Straightforward doesn't mean easy: counting sequences of complex events can get taxing quickly. For example, we count when we sample "with replacement" or "without replacement", and that requires different measures of counting. Problems involving complex counting schemes are a type of combinatorics problem.\footnote{Here's a hard one: ``Suppose a class has 20 students, and there are exactly 20 seats in the classroom. Everyone attends both of the first two days. On both days, the students choose their seats completely randomly, one student per seat.  What is the probability that no one sits in the same seat on both days?'' (Blitzstein and Huang, 1.50)}
 
 \begin{example}[$n$ choose $k$]
 To fulfill a degree, a student can choose 4 out of 8 courses, with the constraint the at least 1 of the 4 chosen courses must be a statistics course. Suppose that 3 out of the 8 possible courses are statistics courses.  How many permissible choices of a course schedule are there?
@@ -128,7 +130,7 @@ Rearranging the terms (bringing the denominator on the left-hand side to the rig
 This also has a English translation if we think of the condition as coming temporally prior. First, $B$ occurs (with probability $P(B)$). Then the probability of $A$ and $B$ both occurring is the probability that you get $A$ conditional on $B$  ($P(A \mid B)$) after getting $B$. Thus we multiply  the two.
 
 \begin{error}[Mistaking $A\mid B$ as an event]
-Conditioning can only happen once, and it is a statement that is distinct from union operations. So when we say $P(A \mid B)$, that is \emph{not} the probability of an event "$A\mid B$" -- that is not an event (category error). We stick to the original definition; as the event that $A$ occurs given that $B$ has occurs. 
+Conditioning can only happen once, and it is a statement that is distinct from set operations. So when we say $P(A \mid B)$, that is \emph{not} the probability of an event ``$A\mid B$'' -- that is not an event (category error). We stick to the original definition; as the event that $A$ occurs given that $B$ has occurs. 
 \end{error}
 
 In naive probability, often with using cards and dice, we are used to writing $P(A_1 \cap A_2 \cap ... A_3)$ as the product $P(A_1)P(A_2)P(A_3)$. But we should be cautious in doing this switch -- this only holds when all events are independent together (and in the social world, not many things are).
@@ -181,13 +183,14 @@ P(A \cap B) = P(A)P(B)
 \end{align*}
 \end{definition}
 
-In English, when you're told for example two events (e.g. two scandals) developed independently, the first image that might come to mind is that the two events are separate. However, this impression can be misleading!
+In English, when you're told for example two events (e.g. two political scandals) developed independently, the first image that might come to mind is that the two events are ``separate''. However, this impression can be misleading!
 
 \begin{error}[Independence and Disjointness]
-Independence and Disjointness are two different concepts. The former does not imply the latter and the latter does not imply the former. In the simplest example, consider a single coin flip. There are two events, Heads or Tails. These are disjoint (both cannot happen at the same time) but they are clearly \emph{dependent}.If you know a flip is Heads, it is definitely not Tails!
+Independence and Disjointness are two different concepts. The former does not imply the latter and the latter does not imply the former. In the simplest example, consider a single coin flip. There are two events, Heads or Tails. These are \emph{disjoint} (both cannot happen at the same time) but they are clearly \emph{not} independent: If you know a flip is Heads, it is definitely not Tails! Conversely, consider two independent coin flips. The event of the first one being heads is \emph{independent} with the second one being heads, but the two events are clearly \emph{not} disjoint because the event that both events happen is clearly possible.
 \end{error}
 
 The clearest and safest way to understand independence might be through again relying on conditional probability. Two events are independent if knowing information about one event does not \emph{add} or \emph{detract} information about another.
+
 
 To establish something is independent, you may need to rearrange the terms to recover the definitional form of independence. When dealing with abstract events, you'd need to rely on the basic rules to get to an expression you want. A lot of solving problems like this is pattern recognition.
 
@@ -254,14 +257,14 @@ Let's take another, more conceptual example.
 \begin{example}[Prosecutor's Fallacy]
 In a 1999 court case, Sally Clark was convicted of infanticide when two of sons died early at birth. On trial the prosecutor argued that Clark was most definitely likely of infanticide. The argument went as follows. First he cited a statistic that in the population, only 1 out of 8,500 young births result in death from natural causes. The probability that two successive deaths occur naturally, then, is (1/ 8500) times (1/8500): one in over 72 million. This is extremely unlikely. Thus, given the evidence of two successive deaths, the probability that they were natural causes is one in over 72 million. In other words, there is overwhelming evidence that Clark had committed infanticide.
 
-Suppose that the 1 out of 8,500 number is true\footnote{What this statement being true means can be technically tricky. How were the numbers obtained and what population does it speak to? Remember that the probability is always defined with respect to a sample space $S$. What you define $S$ to be \emph{depends on the analyst} who is conceptualizing these probabilities; they differ case by case. Here it would be reasonable to think that the sample space is the life or death for every mother's children, among mothers who have children. If we think this rate is constant across history, then the time window should not matter.} and applies to Clark. What are the problem(s) in this reasoning?
+Suppose that the 1 out of 8,500 number is true.\footnote{What this statement being true means can be technically tricky. How were the numbers obtained and what population does it speak to? Remember that the probability is always defined with respect to a sample space $S$. What you define $S$ to be \emph{depends on the analyst} who is conceptualizing these probabilities; they differ case by case. Here it would be reasonable to think that the sample space is the life or death for every mother's children, among mothers who have children. If we think this rate is constant across history, then the time window should not matter.} and applies to Clark. What are the problem(s) in this reasoning?
 
 \tcbox{Answer 1} The first problem is the multiplication of two probabilities, because they do not deal with dependence. Let $E_1$ be the event (evidence) that Clark's first child dies of natural causes. Accept as true that $P(E_1) = 1/8500$. Let $E_2$ be the event that Clark's second child dies of natural causes. Then, from the statistic, we get $P(E_2) = 1/8500$ as well. However, the prosecutor is making claims about \textbf{both} children dying of natural causes. Let's call that event $E_{1,2}.$
 
 Is it true that $P(E_1, E_2) = (1/8500)^2$? Not necessarily, because we can rewrite
 $$P(E_{1,2}) =  P(E_1 \cap E_2) = P(E_1) P(E_2 \mid E_1)$$
 
-\textbf{If} $E_2$ was independent of $E_1$, then by definition of independence $P(E_2 \mid E_1) = P(E_2)$ and we do get the $(1/8500)^2$ number. However, this is probably not the case. Perhaps Clark has a genetic condition or is in a social condition that makes it more likely to have a string unfortunate miscarriages\footnote{Whether or not $P(E_2 \mid E_1) > P(E_2)$ is always true is debatable, and is an empirical question. One might argue that conditional on the first death, the parents will take necessary precautions to decrease the likelihood the probability of another death in ways that others whose first child did not die would not. In which case, $P(E_2 \mid E_1) < P(E_2)$}. Then $P(E_2 \mid E_1)$ will be higher than $P(E_2)$, and so $P(E_{1,2})$ will be higher than $(1/8500)^2.$
+\textbf{If} $E_2$ was independent of $E_1$, then by definition of independence $P(E_2 \mid E_1) = P(E_2)$ and we do get the $(1/8500)^2$ number. However, this is probably not the case. Perhaps Clark has a genetic condition or is in a social condition that makes it more likely to have a string unfortunate miscarriages.\footnote{Whether or not $P(E_2 \mid E_1) > P(E_2)$ is always true is debatable, and is an empirical question. One might argue that conditional on the first death, the parents will take necessary precautions to decrease the likelihood the probability of another death in ways that others whose first child did not die would not. In which case, $P(E_2 \mid E_1) < P(E_2)$.} Then $P(E_2 \mid E_1)$ will be higher than $P(E_2)$, and so $P(E_{1,2})$ will be higher than $(1/8500)^2.$
 
 \tcbox{Answer 2}  There is also a second, arguably more important problem in the reasoning. The prosecutor's argument sounds like that of conditional probability: the probability of innocence given the evidence is very unlikely. Writing this out in terms of probability of events is helpful to clarify our thinking. Let $I$ be the event that Clark is innocent. Then our main quantity of interest is
 
@@ -361,7 +364,7 @@ The cumulative distribution function is useful when our probability of interest 
 
 One common example that fits the motivation of a r.v. well is grading in U.S. systems. The letter grade comes with a particular number. $A$ is given a 4.0 and $A-$ is given a 3.7, and so on. How we got to these numbers is somewhat arbitrary, but transferring these events to numbers has a practical use: We can average over numbers to compare students, which would have been tedious to do with only piles of letter-grades.
 
-Suppose a school defines the numerical summary of a grade in the following way, and also determines a grading distribution as follows\footnote{Distribution inspired by ``Substantiating Fears of Grade Inflation, Dean Says Median Grade at Harvard College Is A-, Most Common Grade Is A''. \emph{Harvard Crimson}, December 3, 2013. \url{http://www.thecrimson.com/article/2013/12/3/grade-inflation-mode-a/}}
+Suppose a school defines the numerical summary of a grade in the following way, and also determines a grading distribution as follows:\footnote{Distribution inspired by ``Substantiating Fears of Grade Inflation, Dean Says Median Grade at Harvard College Is A-, Most Common Grade Is A''. \emph{Harvard Crimson}, December 3, 2013. \url{http://www.thecrimson.com/article/2013/12/3/grade-inflation-mode-a/}}
 
 \begin{table}[H]
 \centering
