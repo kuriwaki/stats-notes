@@ -317,6 +317,7 @@ In practice, we almost always abbreviate the parentheses on the left-hand side, 
 Why do we call this function a random variable? There is nothing random (or stochastic) in the function that takes an event and gives a number, deterministically, for a particular event. Actually, the randomness comes from the experiment and the fact that the occurrence of the event in question is random. We will see this distinction reinforced when we think about distributions.
 
 # Distributions
+
 We now have two main concepts in this section -- probability and random variables. Given a sample space $S$ and the same experiment, both probability and random variables take events as their inputs. But they output different things (probabilities measure the ``size'' of events, random variables give a number in a way that the analyst chose to define the random variable). How do the two concepts relate?
 
 The concept of distributions is the natural bridge between these two concepts.
@@ -507,6 +508,14 @@ pbinom(q = 2, size = 30, prob = 0.1)
 
 
 \qed
+
+\begin{example}
+Consider two random variables $X$ and $Y$, each of them independently distributed Bernoulli($p$). What is $P(X = 1, Y = 1)$ 
+\end{example}
+
+\begin{solution}
+Because they are independent, $P(X = 1, Y =1) = P(X = 1)P(Y= 1)$ which is $p^2$.
+\end{solution}
 
 
 ## Poisson

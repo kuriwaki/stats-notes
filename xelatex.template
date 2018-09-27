@@ -30,7 +30,9 @@
 \AtEndEnvironment{definition}{\null\hfill\qedsymbol}%
 \newtheorem{example}{Example}
 \newtheorem{error}{Common Error}
-\AtEndEnvironment{error}{\null\hfill\qedsymbol}%
+\AtEndEnvironment{error}{\null\hfill\qedsymbol
+\theoremstyle{remark}
+\newtheorem*{solution}{Solution}
 
 \AtEndEnvironment{theorem}{\null\hfill\qedsymbol}%
 \theoremstyle{remark}
