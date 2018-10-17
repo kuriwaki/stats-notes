@@ -412,7 +412,7 @@ As an analyst, increasing $n$ is often simply not possible. In this situation, i
 \begin{definition}[$t$-distribution]
 A random variable, call it $T$, has the $t$ distribution with parameter $\nu$ if it is distributed as
 \[T \sim \frac{Z}{\sqrt{\chi^2_\nu / \nu}}\]
-where the parameter $\nu$ is an integer and called the degrees of freedom, and $\chi^2_\nu$ is a Chi-squared distribution with parameter $\nu$\footnote{We have not covered the $\chi^2$ distribution yet, but roughly it is the sum of squared Normal distributions}
+where the parameter $\nu$ is an integer and called the degrees of freedom, and $\chi^2_\nu$ is a Chi-squared distribution with parameter $\nu$.\footnote{We have not covered the $\chi^2$ distribution yet, but roughly it is the sum of squared Normal distributions}
 \end{definition}
 
 Why bother with this distribution here? It turns out that the sample mean estimator $\bar{X}_n$ of any size $n$ follows a $t$ distribution, under some conditions:
