@@ -516,7 +516,7 @@ Power analysis is process of backing out either the \emph{sample size} or \emph{
 Practically, power calculations are a bit harder to compute analytically (tools\footnote{For example \url{https://egap.shinyapps.io/Power_Calculator/}} exist to do the computation under the hood for you). Another caveat is that you need to provide a bit more than your intended power level. You also need to provide the data-generating model (with unknown parameters of interest). 
 
 \begin{example}[Power to detect lead levels\footnote{Example 6.30 in Moore, McCabe, and Craig}]
-A lab is developing a test that can measure the amount of lead, in parts per billion (ppb), in a sample of water. The test is calibrated to have $\alpha = 0.01$, that is it has a Type I Error rate of at most 0.01. Assume that repeated measurements follow a Normal distribution with unknown mean $\mu$ and unknown variance $\sigma^2 = (0.25)^2$. We want to run a hypothesis test of whether or not the mean $\mu$ is 6 (ppb). Thus,
+A lab is developing a test that can measure the amount of lead, in parts per billion (ppb), in a sample of water. The test is calibrated to have $\alpha = 0.01$, that is it has a Type I Error rate of at most 0.01. Assume that repeated measurements follow a Normal distribution with unknown mean $\mu$ and known variance $\sigma^2 = (0.25)^2$. We want to run a hypothesis test of whether or not the mean $\mu$ is 6 (ppb). Thus,
 
 \[H_0: \mu = 6\]
 
@@ -1463,7 +1463,7 @@ SS_B &= \sum^k_{i=1}n_i(\bar{X}_i - \overline{X})^2\\
 
 
 Backing out the within sum of squares is a bit trickier, but using the fact that 
-\[s_i = \sqrt{\frac{1}{n_i - 1}\sum^{n_i}_{j=1}(X_j - \bar{X}_j)^2}\]
+\[s_i = \sqrt{\frac{1}{n_i - 1}\sum^{n_i}_{j=1}(X_j - \bar{X}_i)^2}\]
 
 we can do
 \begin{align*}
