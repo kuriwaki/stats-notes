@@ -474,10 +474,7 @@ But the interpretation changes. The first estimate can be interpreted as saying 
 
 \qed
 
-Adding more explanatory variables can be a double-edged sword. In general, adding more and more explanatory variables is a good thing, as it provides more information for OLS to make a good linear approximation to the data generating function. In particular, variables that contribute to the outcome variable but are not included in the regression (due to lack of data or an incorrect hypothesis) are called \emph{omitted variables}, and omitted variables cause bias, i.e. $E(\hat{\beta}_1)$ is no longer equal to $\beta_1$. Including these variables solves the omitted variable problem, but it may introduce new problems, especially if the newly-introduced variable is an intermediate outcome of the explanatory variable of interest and the outcome variable. For more advanced reading on this important issue, I recommend either of the two books by Josh Angrist and Jorn-Steffen Pischke\footnote{\emph{Mastering 'Metrics} is an upper-level undergraduate text, and the more well-known \emph{Mostly Harmless Econometrics} is more advanced.}.
+Adding more explanatory variables can be a double-edged sword. In general, adding more and more explanatory variables is a good thing, as it provides more information for OLS to make a good linear approximation to the data generating function. In particular, variables that contribute to the outcome variable but are not included in the regression (due to lack of data or an incorrect hypothesis) are called \emph{omitted variables}, and omitted variables cause bias, i.e. $E(\hat{\beta}_1)$ is no longer equal to $\beta_1$. Including these variables solves the omitted variable problem, but it may introduce new problems, especially if the newly-introduced variable is an intermediate outcome of the explanatory variable of interest and the outcome variable. For more advanced reading on this important issue, I recommend either of the two books by Josh Angrist and Jorn-Steffen Pischke.\footnote{\emph{Mastering 'Metrics} is an upper-level undergraduate text, and the more well-known \emph{Mostly Harmless Econometrics} is more advanced.}
 
-
-
-[To be added: Interpreting $R^2$, Interpreting statitstical significance.]
 
 
