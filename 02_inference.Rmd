@@ -52,6 +52,8 @@ We have now covered the world of probability: How we quantify the likelihood of 
 * What is the interpretation of a confidence interval?
 
 
+\setlength\parskip{5pt}
+
 # Estimators and Estimates
 
 In a word where we only have data and no knowledge about the probability distribution of events, we now must construct estimators. Estimators (1) take data and (2) apply one set of manipulations to that data.  

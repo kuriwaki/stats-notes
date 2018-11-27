@@ -13,9 +13,6 @@
 \usepackage{hyperref}
 \usepackage{float}
 
-% Indent?
-\setlength\parindent{0pt}
-\setlength\parskip{5pt}
 
 
 % Theorems
@@ -62,7 +59,11 @@
     \@starttoc{toc}%
 }
 \makeatother
-\setlength\parskip{5pt}
+
+% Indent?
+\usepackage{parskip}
+\setlength\parindent{0pt}
+\setlength\parskip{10pt}
 
 % Blitzstein
 \newcommand{\var}{\textnormal{Var}}
@@ -155,6 +156,8 @@ $if(date)$
 \normalsize\date{$date$}
 $endif$
 
+
+
 \begin{document}  
 
 \setkeys{Gin}{width=1\textwidth} 	
@@ -165,7 +168,7 @@ $endif$
 \pagestyle{kjh}
 
 \hypersetup{allcolors=crimson, 
-            colorlinks,
+            colorlinks = true,
             pdfpagelabels,
             bookmarksnumbered,
             backref,
