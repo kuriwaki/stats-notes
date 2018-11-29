@@ -93,7 +93,7 @@ Using the data $y$ and $X$.
 
 
 \begin{example}[The Reversal of Fortune]
-In a 2002 article, economists Acemoglu, Johnson, and Robinson argue that countries that were more wealthy and urbanized in the 1500s saw their fortunes reverse in the subsequent centuries. Countries such as Rwanda and Tanzania were high-density areas in the 1500s but in the 20th century had low GDP per capita. The authors argue that this is because European colonialism settled more in areas that were less developed in the 1500s, but then went on to become strong economies. A simple bivariate relationship motivates their argument.
+In a 2002 article\footnote{``\href{https://economics.mit.edu/files/4962}{Reversal of Fortune: Geography and Institutions in the Making of the Modern World Income Distribution.}'' Daron Acemoglu, Simon Johnson, and James A. Robinson. \emph{Quarterly Journal of Economics}, 117, November 2002: pp. 1231-1294.}, economists Acemoglu, Johnson, and Robinson argue that countries that were more wealthy and urbanized in the 1500s saw their fortunes reverse in the subsequent centuries. Countries such as Rwanda and Tanzania were high-density areas in the 1500s but in the 20th century had low GDP per capita. The authors argue that this is because European colonialism settled more in areas that were less developed in the 1500s, but then went on to become strong economies. A simple bivariate relationship motivates their argument.
 
 \end{example}
 
