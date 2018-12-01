@@ -185,7 +185,7 @@ First we need to set out some criteria that defines what is a good estimate. Put
 \begin{definition}[Ordinary Least Squares]
 The Ordinary Least Squares (OLS) estimators for coefficients $\widehat{\beta}_0$ and $\widehat{\beta}_1$ are those that minimize the squared sum of residuals produced by those estimators, that is
 
-\[\text{Find}~~(\widehat{\beta}_0, \widehat{\beta}_1) \text{ such that } \sum^n_{i-1}(y_i - \hat{u}_i)^2 \text{is minimized}  \]
+\[\text{Find}~~(\widehat{\beta}_0, \widehat{\beta}_1) \text{ such that } \sum^n_{i = 1}(y_i - \hat{u}_i)^2 \text{is minimized}  \]
 
 In math, we use the symbol $\text{argmin}_{b_0, b_1}$ to indicate the same thing, ``the values such that...''
 
